@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.757
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BaleLib", "BaliLib\BaleLib.csproj", "{4BB8833A-43DF-422B-9B07-9FB8CC90890C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BaleLib", "BaliLib\BaleLib.csproj", "{4BB8833A-43DF-422B-9B07-9FB8CC90890C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BaleLibTest", "BaleLibTest\BaleLibTest.csproj", "{E6B31F01-01BD-4230-849B-13D47310AEB3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{4BB8833A-43DF-422B-9B07-9FB8CC90890C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4BB8833A-43DF-422B-9B07-9FB8CC90890C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4BB8833A-43DF-422B-9B07-9FB8CC90890C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E6B31F01-01BD-4230-849B-13D47310AEB3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E6B31F01-01BD-4230-849B-13D47310AEB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E6B31F01-01BD-4230-849B-13D47310AEB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E6B31F01-01BD-4230-849B-13D47310AEB3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

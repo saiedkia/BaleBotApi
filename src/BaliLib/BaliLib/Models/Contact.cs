@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace BaleLib.Models
+﻿namespace BaleLib.Models
 {
     public class Contact
     {
