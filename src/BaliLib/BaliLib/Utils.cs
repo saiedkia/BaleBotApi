@@ -67,12 +67,40 @@ namespace BaleLib
             };
 
             JObject jObjects = JObject.FromObject(obj);
-            foreach(KeyValuePair<string, string> item in appedValues)
+            foreach (KeyValuePair<string, string> item in appedValues)
             {
                 jObjects.Add(item.Key, item.Value);
             }
 
             return JsonConvert.SerializeObject(jObjects, setting);
+        }
+
+        public static string ToBase64(string filePath)
+        {
+            byte[] imageBytes = File.ReadAllBytes(filePath);
+
+            // Convert byte[] to Base64 String
+            string base64String = Convert.ToBase64String(imageBytes);
+            return base64String;
+        }
+
+        public static byte[] ToBytes(string filePath)
+        {
+            byte[] imageBytes = File.ReadAllBytes(filePath);
+            return imageBytes;
+        }
+
+        public static string ToByte(string filePath)
+        {
+            byte[] imageBytes = File.ReadAllBytes(filePath);
+            StringBuilder builder = new StringBuilder();
+            foreach (byte b in imageBytes)
+            {
+                builder.Append(b.ToString());
+            }
+
+
+            return builder.ToString();
         }
     }
 

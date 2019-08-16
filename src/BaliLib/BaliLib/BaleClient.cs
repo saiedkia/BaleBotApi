@@ -3,6 +3,7 @@ using BaleLib.Models.Parameters;
 using BaleLib.Models.Updates;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 
 namespace BaleLib
@@ -154,6 +155,150 @@ namespace BaleLib
             }
 
             return new Response<Chat>();
+        }
+
+        public Response<From> GetMe()
+        {
+            string url = baseUrl + "getme";
+
+            HttpResponseMessage response = client.GetAsync(url).Result;
+
+            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                string result = response.Content.ReadAsStringAsync().Result;
+                Response<From> res = Utils.Deserialize<Response<From>>(result);
+                return res;
+
+
+            }
+
+            return new Response<From>();
+        }
+
+
+        public Response SendPhoto(PhotoMessage message)
+        {
+            string url = baseUrl + "sendphoto";
+
+            MultipartFormDataContent multiContent = new MultipartFormDataContent
+            {
+                { new StringContent(message.ChatId.ToString()), "chat_id" },
+                { new StringContent(message.Caption), "caption"  },
+            };
+
+            if (message.ReplyToMessageId != null)
+                multiContent.Add(new StringContent("reply_to_message_id"), message.ReplyToMessageId?.ToString());
+
+            ByteArrayContent imageContent = new ByteArrayContent(message.Photo);
+            imageContent.Headers.ContentType = new MediaTypeHeaderValue("image/png");
+
+            multiContent.Add(imageContent, "photo");
+
+
+            HttpResponseMessage response = client.PostAsync(url, multiContent).Result;
+
+            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                Response result = Utils.Deserialize<Response>(response.Content.ReadAsStringAsync().Result);
+                return result;
+            }
+
+
+            return new Response();
+        }
+
+        public Response SendAudio(AudioMessage message)
+        {
+            string url = baseUrl + "sendAudio";
+
+            MultipartFormDataContent multiContent = new MultipartFormDataContent
+            {
+                { new StringContent(message.ChatId.ToString()), "chat_id" },
+                { new StringContent(message.Caption), "caption"  },
+                { new StringContent(message.Title), "title"  },
+            };
+
+            if (message.ReplyToMessageId != null)
+                multiContent.Add(new StringContent("reply_to_message_id"), message.ReplyToMessageId?.ToString());
+
+            ByteArrayContent audioContent = new ByteArrayContent(message.Audio);
+            audioContent.Headers.ContentType = new MediaTypeHeaderValue("audio/mpeg");
+
+            multiContent.Add(audioContent, "audio");
+
+
+            HttpResponseMessage response = client.PostAsync(url, multiContent).Result;
+
+            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                Response result = Utils.Deserialize<Response>(response.Content.ReadAsStringAsync().Result);
+                return result;
+            }
+
+
+            return new Response();
+        }
+
+        public Response SendDocument(DocumentMessage message)
+        {
+            string url = baseUrl + "senddocument";
+
+            MultipartFormDataContent multiContent = new MultipartFormDataContent
+            {
+                { new StringContent(message.ChatId.ToString()), "chat_id" },
+                { new StringContent(message.Caption), "caption"  },
+            };
+
+            if (message.ReplyToMessageId != null)
+                multiContent.Add(new StringContent("reply_to_message_id"), message.ReplyToMessageId?.ToString());
+
+            ByteArrayContent documentContent = new ByteArrayContent(message.Document);
+            documentContent.Headers.ContentType = new MediaTypeHeaderValue("audio/mpeg");
+
+            multiContent.Add(documentContent, "document");
+
+
+            HttpResponseMessage response = client.PostAsync(url, multiContent).Result;
+
+            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                Response result = Utils.Deserialize<Response>(response.Content.ReadAsStringAsync().Result);
+                return result;
+            }
+
+
+            return new Response();
+        }
+
+        public Response SendVideo(VideoMessage message)
+        {
+            string url = baseUrl + "sendVideo";
+
+            MultipartFormDataContent multiContent = new MultipartFormDataContent
+            {
+                { new StringContent(message.ChatId.ToString()), "chat_id" },
+                { new StringContent(message.Caption), "caption"  },
+            };
+
+            if (message.ReplyToMessageId != null)
+                multiContent.Add(new StringContent("reply_to_message_id"), message.ReplyToMessageId?.ToString());
+
+            ByteArrayContent videoContent = new ByteArrayContent(message.Video);
+            videoContent.Headers.ContentType = new MediaTypeHeaderValue("video/mp4");
+
+            multiContent.Add(videoContent, "video");
+
+
+            HttpResponseMessage response = client.PostAsync(url, multiContent).Result;
+
+            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                Response result = Utils.Deserialize<Response>(response.Content.ReadAsStringAsync().Result);
+                return result;
+            }
+
+
+            return new Response();
         }
     }
 }

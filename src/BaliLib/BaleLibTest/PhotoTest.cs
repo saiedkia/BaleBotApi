@@ -1,5 +1,8 @@
 ﻿using BaleLib;
+using BaleLib.Models;
+using BaleLib.Models.Parameters;
 using BaleLib.Models.Updates;
+using FluentAssertions;
 using Xunit;
 
 namespace BaleLibTest
@@ -48,6 +51,21 @@ namespace BaleLibTest
             Assert.NotNull(updateResult);
             Assert.True(updateResult.Result.Count == messagesCount);
             Assert.True(updateResult.Result[0].Message.Photo.Count == photosCount);
+        }
+
+        [Fact]
+        public void Send_photo_successfully()
+        {
+            BaleClient client = new BaleClient(Token);
+            Response response = client.SendPhoto(new PhotoMessage()
+            {
+                Caption = "image caption",
+                ChatId = ChatId,
+                Photo = Utils.ToBytes(FilePath + "lolo.png")
+            });
+
+            response.Ok.Should().BeTrue();
+            response.Result.Photo.Count.Should().Be(1);
         }
     }
 }
