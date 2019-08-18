@@ -1,0 +1,39 @@
+{
+  "ok": true,
+  "result": [
+    {
+      "update_id": 1,
+      "message": {
+        "message_id": -735550970,
+        "from": {
+          "id": 658855854,
+          "is_bot": false,
+          "first_name": "saied"
+        },
+        "date": 1565858982,
+        "chat": {
+          "id": 658855854,
+          "type": "private"
+        },
+        "text": "/start"
+      }
+    },
+    {
+      "update_id": 2,
+      "message": {
+        "message_id": 1142948306,
+        "from": {
+          "id": 658855854,
+          "is_bot": false,
+          "first_name": "saied"
+        },
+        "date": 1565858987,
+        "chat": {
+          "id": 658855854,
+          "type": "private"
+        },
+        "text": "salam"
+      }
+    }
+  ]
+}

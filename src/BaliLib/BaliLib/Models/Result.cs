@@ -34,5 +34,6 @@ namespace BaleLib.Models
         public List<string> PinnedMessage { get; set; }
         public Invoice Invoice { get; set; }
         public Payment SuccessfulPayment { get; set; }
+        public Video Video { get; set; }
     }
 }

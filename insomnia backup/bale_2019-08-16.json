@@ -1,0 +1,198 @@
+{
+	"_type": "export",
+	"__export_format": 3,
+	"__export_date": "2019-08-16T06:29:04.652Z",
+	"__export_source": "insomnia.desktop.app:v6.3.2",
+	"resources": [
+		{
+			"_id": "wrk_bc73a4dffee74bb78ec6cd011b354192",
+			"created": 1565858802734,
+			"description": "",
+			"modified": 1565858802734,
+			"name": "bale",
+			"parentId": null,
+			"_type": "workspace"
+		},
+		{
+			"_id": "env_e765a6eb542d4759bc88553840190f29",
+			"color": null,
+			"created": 1565858803058,
+			"data": {},
+			"isPrivate": false,
+			"metaSortKey": 1565858803059,
+			"modified": 1565858803058,
+			"name": "New Environment",
+			"parentId": "wrk_bc73a4dffee74bb78ec6cd011b354192",
+			"_type": "environment"
+		},
+		{
+			"_id": "jar_ca6f250afe8048e0a2f9848fca8311db",
+			"cookies": [],
+			"created": 1565858803076,
+			"modified": 1565858803076,
+			"name": "Default Jar",
+			"parentId": "wrk_bc73a4dffee74bb78ec6cd011b354192",
+			"_type": "cookie_jar"
+		},
+		{
+			"_id": "req_8d222177211445be98082eccd36d2f24",
+			"authentication": {},
+			"body": {
+				"mimeType": "application/json",
+				"text": "{\n\t\"offset\" : 2,\n\t\"limit\" : 100\n}"
+			},
+			"created": 1565858830436,
+			"description": "",
+			"headers": [
+				{
+					"id": "pair_13259c32f97249179f977ec1c81b5e6e",
+					"name": "Content-Type",
+					"value": "application/json"
+				}
+			],
+			"isPrivate": false,
+			"metaSortKey": -1565858830436,
+			"method": "POST",
+			"modified": 1565861858624,
+			"name": "getUpdates",
+			"parameters": [],
+			"parentId": "wrk_bc73a4dffee74bb78ec6cd011b354192",
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingMaxTimelineDataSize": 1000,
+			"settingRebuildPath": true,
+			"settingSendCookies": true,
+			"settingStoreCookies": true,
+			"url": "https://tapi.bale.ai/403434177:dae115b14eca59dc3ecb420e44e679887bf2dabd/getUpdates",
+			"_type": "request"
+		},
+		{
+			"_id": "req_3364ed20743648c398996334c2c301ae",
+			"authentication": {},
+			"body": {
+				"mimeType": "application/json",
+				"text": "{\n\n    \"chat_id\": 658855854 ,\n    \"text\": \"oooo\",\n    \"reply_to_message_id\": null\n\n}"
+			},
+			"created": 1565893208760,
+			"description": "",
+			"headers": [
+				{
+					"id": "pair_0f8fe2460bd44731ada83248bef61bd7",
+					"name": "Content-Type",
+					"value": "application/json"
+				}
+			],
+			"isPrivate": false,
+			"metaSortKey": -1565893208760,
+			"method": "POST",
+			"modified": 1565898819194,
+			"name": "sendMessage",
+			"parameters": [],
+			"parentId": "wrk_bc73a4dffee74bb78ec6cd011b354192",
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingMaxTimelineDataSize": 1000,
+			"settingRebuildPath": true,
+			"settingSendCookies": true,
+			"settingStoreCookies": true,
+			"url": "https://tapi.bale.ai/403434177:dae115b14eca59dc3ecb420e44e679887bf2dabd/sendmessage",
+			"_type": "request"
+		},
+		{
+			"_id": "req_53ca4f4010ec4062abd9814327b5fe89",
+			"authentication": {},
+			"body": {
+				"mimeType": "application/json",
+				"text": "{\n\n    \"chat_id\": 658855854 ,\n    \"text\": \"string\",\n    \"reply_to_message_id\": null\n\n}"
+			},
+			"created": 1565897419672,
+			"description": "",
+			"headers": [
+				{
+					"id": "pair_0f8fe2460bd44731ada83248bef61bd7",
+					"name": "Content-Type",
+					"value": "application/json"
+				}
+			],
+			"isPrivate": false,
+			"metaSortKey": -1565876019598,
+			"method": "POST",
+			"modified": 1565897436335,
+			"name": "deleteWebhook",
+			"parameters": [],
+			"parentId": "wrk_bc73a4dffee74bb78ec6cd011b354192",
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingMaxTimelineDataSize": 1000,
+			"settingRebuildPath": true,
+			"settingSendCookies": true,
+			"settingStoreCookies": true,
+			"url": "https://tapi.bale.ai/403434177:dae115b14eca59dc3ecb420e44e679887bf2dabd/deletewebhook",
+			"_type": "request"
+		},
+		{
+			"_id": "req_ed68b48ed3d64a348dfca5aad1706bb7",
+			"authentication": {},
+			"body": {
+				"mimeType": "application/json",
+				"text": "{\n    \"chat_id\": 658855854 ,\n    \"message_id\": 209603713\n}"
+			},
+			"created": 1565898033919,
+			"description": "",
+			"headers": [
+				{
+					"id": "pair_ddee068ae06b4f769dcb56c6bf26a99b",
+					"name": "Content-Type",
+					"value": "application/json"
+				}
+			],
+			"isPrivate": false,
+			"metaSortKey": -1565867425017,
+			"method": "GET",
+			"modified": 1565899246232,
+			"name": "deleteMessage",
+			"parameters": [],
+			"parentId": "wrk_bc73a4dffee74bb78ec6cd011b354192",
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingMaxTimelineDataSize": 1000,
+			"settingRebuildPath": true,
+			"settingSendCookies": true,
+			"settingStoreCookies": true,
+			"url": "https://tapi.bale.ai/403434177:dae115b14eca59dc3ecb420e44e679887bf2dabd/deleteMessage",
+			"_type": "request"
+		},
+		{
+			"_id": "req_41a6292fec864b06a8d5aeeda510ce45",
+			"authentication": {},
+			"body": {
+				"mimeType": "application/json",
+				"text": "{\n\t\"url\" : \"https://myhook.com\"\n}"
+			},
+			"created": 1565899469928,
+			"description": "",
+			"headers": [
+				{
+					"id": "pair_0f8fe2460bd44731ada83248bef61bd7",
+					"name": "Content-Type",
+					"value": "application/json"
+				}
+			],
+			"isPrivate": false,
+			"metaSortKey": -1565871722307.5,
+			"method": "POST",
+			"modified": 1565900452499,
+			"name": "setWebhook",
+			"parameters": [],
+			"parentId": "wrk_bc73a4dffee74bb78ec6cd011b354192",
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingMaxTimelineDataSize": 1000,
+			"settingRebuildPath": true,
+			"settingSendCookies": true,
+			"settingStoreCookies": true,
+			"url": "https://tapi.bale.ai/403434177:dae115b14eca59dc3ecb420e44e679887bf2dabd/setwebhook",
+			"_type": "request"
+		}
+	]
+}
