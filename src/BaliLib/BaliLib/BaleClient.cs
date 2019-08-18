@@ -300,5 +300,43 @@ namespace BaleLib
 
             return new Response();
         }
+
+        public Response SendLocation(LocationMessage message)
+        {
+            string url = baseUrl + "sendlocation";
+
+            string content = Utils.Serialize(message);
+            HttpResponseMessage response = client.PostAsync(url, new StringContent(content, Encoding.UTF8, "application/json")).Result;
+
+            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                string result = response.Content.ReadAsStringAsync().Result;
+                Response res = Utils.Deserialize<Response>(result);
+                return res;
+
+
+            }
+
+            return new Response();
+        }
+
+        public Response SendContact(ContactMessage message)
+        {
+            string url = baseUrl + "sendcontact";
+
+            string content = Utils.Serialize(message);
+            HttpResponseMessage response = client.PostAsync(url, new StringContent(content, Encoding.UTF8, "application/json")).Result;
+
+            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                string result = response.Content.ReadAsStringAsync().Result;
+                Response res = Utils.Deserialize<Response>(result);
+                return res;
+
+
+            }
+
+            return new Response();
+        }
     }
 }

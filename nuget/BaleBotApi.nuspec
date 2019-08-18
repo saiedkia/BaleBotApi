@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>BaleBotAPI</id>
+    <version>1.0.0</version>
+    <authors>SaiedKia</authors>
+    <owners>SaiedKia</owners>
+    <iconUrl>https://github.com/saiedkia/BaleBotApi/blob/master/images/icon.png?raw=true</iconUrl>
+    <projectUrl>https://github.com/saiedkia/BaleBotApi</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+	<summary>Bale messenger bot api wrapper</summary>
+    <description>Bale messenger bot api wrapper</description>
+    <releaseNotes>alpha version, WIP</releaseNotes>
+    <copyright>Copyright 2019</copyright>
+    <tags>bale bale.ai bale-messenger bot</tags>
+	<license type="expression">MIT</license>
+	<dependencies>
+		<dependency id="NETStandard.Library" version="2.0.3" />
+		<dependency id="Newtonsoft.Json" version="12.0.2" />
+	</dependencies>	
+  </metadata>
+  	<files>
+		<file src="..\src\BaliLib\BaliLib\bin\Release\netstandard2.0\BaleLib.dll" target="lib\netstandard2.0" />
+	</files>
+</package>
