@@ -4,8 +4,8 @@ namespace BaleLib.Models.Updates
 {
     public class UpdateResult
     {
-        public List<UpdateResponse> Result { get; set; }
+        public List<Update> Result { get; set; }
         public bool Ok { get; set; }
-
+        public long Errorcode { get; set; }
     }
 }

@@ -2,6 +2,7 @@
 using BaleLib.Models.Parameters;
 using BaleLib.Models.Updates;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -21,10 +22,10 @@ namespace BaleLib
             client = new HttpClient();
         }
 
-        public UpdateResult GetUpdates(int offset = 0, int limit = 50, bool callRemoveWebHook = false)
+        public UpdateResult GetUpdates(int offset = 0, int limit = 50, bool removeWebHook = false)
         {
             string url = baseUrl + "getupdates";
-            if (callRemoveWebHook) { DeleteWebHook(); }
+            if (removeWebHook) { DeleteWebHook(); }
             string content = Utils.Serialize(new { Offset = offset, Limit = limit });
 
             HttpResponseMessage response = client.PostAsync(url, new StringContent(content, Encoding.UTF8, "application/json")).Result;
@@ -75,8 +76,6 @@ namespace BaleLib
             return new Response<bool>();
         }
 
-
-
         public Response SendTextMessage(TextMessage message)
         {
             string url = baseUrl + "sendmessage";
@@ -84,16 +83,9 @@ namespace BaleLib
             string content = Utils.Serialize(message);
             HttpResponseMessage response = client.PostAsync(url, new StringContent(content, Encoding.UTF8, "application/json")).Result;
 
-            if (response.StatusCode == System.Net.HttpStatusCode.OK)
-            {
-                string result = response.Content.ReadAsStringAsync().Result;
-                Response res = Utils.Deserialize<Response>(result);
-                return res;
-
-
-            }
-
-            return null;
+            string result = response.Content.ReadAsStringAsync().Result;
+            Response res = Utils.Deserialize<Response>(result);
+            return res;
         }
 
         public Response<bool> DeleteMessage(long chatId, long messageId)
@@ -185,6 +177,10 @@ namespace BaleLib
                 { new StringContent(message.ChatId.ToString()), "chat_id" },
                 { new StringContent(message.Caption), "caption"  },
             };
+
+            if (message.ReplyMarkup != null)
+                multiContent.Add(new StringContent(Utils.Serialize(message.ReplyMarkup)), "reply_markup");
+
 
             if (message.ReplyToMessageId != null)
                 multiContent.Add(new StringContent("reply_to_message_id"), message.ReplyToMessageId?.ToString());
@@ -337,6 +333,42 @@ namespace BaleLib
             }
 
             return new Response();
+        }
+
+        public Response<File> GetFile(string fileId)
+        {
+            string url = baseUrl + "getfile?file_id=" + fileId;
+
+            HttpResponseMessage response = client.GetAsync(url).Result;
+
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                string result = response.Content.ReadAsStringAsync().Result;
+                Response<File> res = Utils.Deserialize<Response<File>>(result);
+                return res;
+
+
+            }
+
+            return new Response<File>();
+        }
+
+        public Response SendInvoice(InvoiceMessage message)
+        {
+            string url = baseUrl + "sendInvoice";
+
+            string content = Utils.Serialize(message);
+            HttpResponseMessage response = client.PostAsync(url, new StringContent(content, Encoding.UTF8, "application/json")).Result;
+
+            //if (response.StatusCode == HttpStatusCode.OK)
+            //{
+            string result = response.Content.ReadAsStringAsync().Result;
+            Response res = Utils.Deserialize<Response>(result);
+            return res;
+            //         }
+
+            //       return null;
+
         }
     }
 }

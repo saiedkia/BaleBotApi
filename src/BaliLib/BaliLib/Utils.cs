@@ -53,7 +53,7 @@ namespace BaleLib
         {
             JsonSerializerSettings setting = new JsonSerializerSettings()
             {
-                ContractResolver = new BaleContractResolver()
+                ContractResolver = new BaleContractResolver(),
             };
 
             return JsonConvert.SerializeObject(obj, setting);
