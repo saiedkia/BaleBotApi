@@ -23,7 +23,6 @@ namespace BaleLibTest
             Assert.True(updateResult.Result[0].Message.Photo.Count == photosCount);
         }
 
-
         [Fact]
         public void Deserialize_image_json_file_array()
         {
@@ -37,7 +36,6 @@ namespace BaleLibTest
             Assert.True(updateResult.Result.Count == messagesCount);
             Assert.True(updateResult.Result[0].Message.Photo.Count == photosCount);
         }
-
 
         [Fact]
         public void Deserialize_image_json_file_messagePhotoArray()
@@ -62,6 +60,22 @@ namespace BaleLibTest
                 Caption = "image caption",
                 ChatId = ChatId,
                 Photo = Utils.ToBytes(FilePath + "lolo.png")
+            });
+
+            response.Ok.Should().BeTrue();
+            response.Result.Photo.Count.Should().Be(1);
+        }
+
+        [Fact]
+        public void Send_photo_with_keyboard_successfully()
+        {
+            BaleClient client = new BaleClient(Token);
+            Response response = client.SendPhoto(new PhotoMessage()
+            {
+                Caption = "image caption",
+                ChatId = ChatId,
+                Photo = Utils.ToBytes(FilePath + "lolo.png"),
+                ReplyMarkup = ReplyKeyboard.Create().AddButton("download file").AddButton("something else").Build()
             });
 
             response.Ok.Should().BeTrue();

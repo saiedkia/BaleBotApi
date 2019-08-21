@@ -21,7 +21,7 @@ namespace BaleLibTest
             });
 
             response.Ok.Should().BeTrue();
-            response.Result.Audio.Should().NotBeNull();
+            response.Result.Document.Should().NotBeNull();
         }
     }
 }

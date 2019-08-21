@@ -14,5 +14,10 @@
         public BaseInput()
         {
         }
+
+        public BaseInput(long chatId)
+        {
+            ChatId = chatId;
+        }
     }
 }
