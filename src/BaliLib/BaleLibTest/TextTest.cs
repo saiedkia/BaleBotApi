@@ -130,5 +130,55 @@ namespace BaleLibTest
             response.Ok.Should().BeFalse();
             response.Errorcode.Should().Be(401);
         }
+
+        [Fact]
+        public void Send_message_with_hyperlink()
+        {
+            BaleClient client = new BaleClient(Token);
+            Response response = client.SendTextAsync(new TextMessage()
+            {
+                ChatId = ChatId,
+                Text = "for more information [tap on me](http://saiedkia.ir)"
+            }).Result;
+
+            response.Ok.Should().BeTrue();
+        }
+
+        [Fact]
+        public void Reply_to_a_previous_message()
+        {
+            BaleClient client = new BaleClient(Token);
+            Response response = client.SendTextAsync(new TextMessage()
+            {
+                ChatId = ChatId,
+                Text = "next message should be point to me... :)"
+            }).Result;
+
+            Response replyResponse = client.SendTextAsync(new TextMessage()
+            {
+                ChatId = ChatId,
+                Text = "reply message here...",
+                ReplyToMessageId = response.Result.MessageId
+            }).Result;
+
+            replyResponse.Ok.Should().BeTrue();
+            replyResponse.Result.Should().NotBeNull();
+        }
+
+        [Fact]
+        public void Reply_should_falied_cause_of_invliad_message_id()
+        {
+            BaleClient client = new BaleClient(Token);
+
+            Response replyResponse = client.SendTextAsync(new TextMessage()
+            {
+                ChatId = ChatId,
+                Text = "reply message here...",
+                ReplyToMessageId = 123456
+            }).Result;
+
+            replyResponse.Ok.Should().BeTrue();
+            replyResponse.Result.Should().NotBeNull();
+        }
     }
 }
