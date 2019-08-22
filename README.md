@@ -42,3 +42,5 @@ Response response = client.SendInvoice(
 		"uniqueFactorId", new Price("pizza chicago", 300_000)
 	)).Result;
 ```
+### Console application sample:
+https://gitlab.com/saiedkia/bale-echo
