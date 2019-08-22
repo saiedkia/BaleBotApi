@@ -12,12 +12,12 @@ namespace BaleLibTest
         public void Get_file_successfully()
         {
             BaleClient client = new BaleClient(Token);
-            Response sendPhotoResponse = client.SendPhoto(new PhotoMessage()
+            Response sendPhotoResponse = client.SendPhotoAsync(new PhotoMessage()
             {
                 Caption = "image caption",
                 ChatId = ChatId,
                 Photo = Utils.ToBytes(FilePath + "lolo.png")
-            });
+            }).Result;
 
             string fileId = sendPhotoResponse.Result.Photo[0].FileId;
             Response<File> response = client.GetFile(fileId);

@@ -12,14 +12,14 @@ namespace BaleLibTest
         public void DeleteMessage_successfully()
         {
             BaleClient client = new BaleClient(Token);
-            Response response = client.SendTextMessage(new TextMessage()
+            Response response = client.SendTextAsync(new TextMessage()
             {
                 ChatId = ChatId,
                 Text = "should be deleted very soon :)"
-            });
+            }).Result;
 
 
-            Response<bool> deleteMessageResponse = client.DeleteMessage(ChatId, response.Result.MessageId);
+            Response<bool> deleteMessageResponse = client.DeleteMessageAsync(ChatId, response.Result.MessageId).Result;
 
 
             deleteMessageResponse.Ok.Should().BeTrue();

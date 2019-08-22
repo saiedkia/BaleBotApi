@@ -17,39 +17,43 @@ namespace BaleLibTest
             string jsonFile = Utils.ReadFile(JsonPath + "text\\TextMessage.json");
             int updateCount = 2;
 
-            UpdateResult result = Utils.Deserialize<UpdateResult>(jsonFile);
+            Response<List<Update>> response = Utils.Deserialize<Response<List<Update>>>(jsonFile);
 
-            Assert.NotNull(result);
-            Assert.Equal(result.Result.Count, updateCount);
+            Assert.NotNull(response);
+            Assert.Equal(response.Result.Count, updateCount);
         }
 
         [Fact]
         public void Should_send_a_text_message_successfully()
         {
             BaleClient client = new BaleClient(Token);
-            client.SendTextMessage(new TextMessage()
+            string textMessage = "salam";
+            Response response = client.SendTextAsync(new TextMessage()
             {
                 ChatId = ChatId,
-                Text = "salam"
-            });
+                Text = textMessage
+            }).Result;
+
+            response.Ok.Should().BeTrue();
+            response.Result.Text.Should().Be(textMessage);
         }
 
         [Fact]
         public void Update_message_successfully()
         {
             BaleClient client = new BaleClient(Token);
-            Response response = client.SendTextMessage(new TextMessage()
+            Response response = client.SendTextAsync(new TextMessage()
             {
                 ChatId = ChatId,
                 Text = "salam"
-            });
+            }).Result;
 
 
-            Response editResponse = client.EditTextMessage(new TextMessage()
+            Response editResponse = client.EditTextAsync(new TextMessage()
             {
                 ChatId = ChatId,
                 Text = "updated text message"
-            }, response.Result.MessageId);
+            }, response.Result.MessageId).Result;
 
 
             editResponse.Ok.Should().BeTrue();
@@ -61,11 +65,11 @@ namespace BaleLibTest
         public void Update_message_must_fail_because_messageId_is_invalid()
         {
             BaleClient client = new BaleClient(Token);
-            Response editResponse = client.EditTextMessage(new TextMessage()
+            Response editResponse = client.EditTextAsync(new TextMessage()
             {
                 ChatId = ChatId,
                 Text = "updated text message"
-            }, 1010);
+            }, 1010).Result;
 
 
             editResponse.Ok.Should().BeFalse();
@@ -76,7 +80,7 @@ namespace BaleLibTest
         public void Send_a_textMessage_with_inlineKeyboard()
         {
             BaleClient client = new BaleClient(Token);
-            Response response = client.SendTextMessage(new TextMessage()
+            Response response = client.SendTextAsync(new TextMessage()
             {
                 ChatId = ChatId,
                 Text = "click on buttons",
@@ -91,7 +95,7 @@ namespace BaleLibTest
                         }
                     }
                 }
-            });
+            }).Result;
 
             response.Ok.Should().BeTrue();
             response.Result.Should().NotBeNull();
@@ -101,13 +105,13 @@ namespace BaleLibTest
         public void Send_a_textMessage_with_inlineKeyboard_via_keboard_builder()
         {
             BaleClient client = new BaleClient(Token);
-            Response response = client.SendTextMessage(new TextMessage()
+            Response response = client.SendTextAsync(new TextMessage()
             {
                 ChatId = ChatId,
                 Text = "click on buttons",
                 ReplyMarkup = ReplyKeyboard.Create().AddButton("button one").AddButton("button two")
                     .AddButton("button three").Build()
-            });
+            }).Result;
 
             response.Ok.Should().BeTrue();
             response.Result.Should().NotBeNull();
@@ -117,11 +121,11 @@ namespace BaleLibTest
         public void Send_message_should_fail_because_token_is_invalid()
         {
             BaleClient client = new BaleClient("invalid token");
-            Response response = client.SendTextMessage(new TextMessage()
+            Response response = client.SendTextAsync(new TextMessage()
             {
                 ChatId = ChatId,
                 Text = "good by world!",
-            });
+            }).Result;
 
             response.Ok.Should().BeFalse();
             response.Errorcode.Should().Be(401);

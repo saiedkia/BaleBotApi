@@ -1,6 +1,8 @@
 ﻿using BaleLib;
+using BaleLib.Models;
 using BaleLib.Models.Updates;
 using FluentAssertions;
+using System.Collections.Generic;
 using Xunit;
 
 namespace BaleLibTest
@@ -11,7 +13,7 @@ namespace BaleLibTest
         public void Should_get_updates_successfully_and_count_must_be_greater_than_zero()
         {
             BaleClient client = new BaleClient(Token);
-            UpdateResult updateResult = client.GetUpdates();
+            Response<List<Update>> updateResult = client.GetUpdatesAsync().Result;
 
             updateResult.Ok.Should().BeTrue();
             updateResult.Result.Count.Should().BeGreaterThan(0);

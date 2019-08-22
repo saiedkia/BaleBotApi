@@ -3,6 +3,7 @@ using BaleLib.Models;
 using BaleLib.Models.Parameters;
 using BaleLib.Models.Updates;
 using FluentAssertions;
+using System.Collections.Generic;
 using Xunit;
 
 namespace BaleLibTest
@@ -16,7 +17,7 @@ namespace BaleLibTest
             int messagesCount = 1;
             int photosCount = 1;
 
-            UpdateResult updateResult = Utils.Deserialize<UpdateResult>(jsonFile);
+            Response<List<Update>> updateResult = Utils.Deserialize<Response<List<Update>>>(jsonFile);
 
             Assert.NotNull(updateResult);
             Assert.True(updateResult.Result.Count == messagesCount);
@@ -30,7 +31,7 @@ namespace BaleLibTest
             int messagesCount = 1;
             int photosCount = 2;
 
-            UpdateResult updateResult = Utils.Deserialize<UpdateResult>(jsonFile);
+            Response<List<Update>> updateResult = Utils.Deserialize<Response<List<Update>>>(jsonFile);
 
             Assert.NotNull(updateResult);
             Assert.True(updateResult.Result.Count == messagesCount);
@@ -44,7 +45,7 @@ namespace BaleLibTest
             int messagesCount = 2;
             int photosCount = 2;
 
-            UpdateResult updateResult = Utils.Deserialize<UpdateResult>(jsonFile);
+            Response<List<Update>> updateResult = Utils.Deserialize<Response<List<Update>>>(jsonFile);
 
             Assert.NotNull(updateResult);
             Assert.True(updateResult.Result.Count == messagesCount);
@@ -55,12 +56,12 @@ namespace BaleLibTest
         public void Send_photo_successfully()
         {
             BaleClient client = new BaleClient(Token);
-            Response response = client.SendPhoto(new PhotoMessage()
+            Response response = client.SendPhotoAsync(new PhotoMessage()
             {
                 Caption = "image caption",
                 ChatId = ChatId,
                 Photo = Utils.ToBytes(FilePath + "lolo.png")
-            });
+            }).Result;
 
             response.Ok.Should().BeTrue();
             response.Result.Photo.Count.Should().Be(1);
@@ -70,13 +71,13 @@ namespace BaleLibTest
         public void Send_photo_with_keyboard_successfully()
         {
             BaleClient client = new BaleClient(Token);
-            Response response = client.SendPhoto(new PhotoMessage()
+            Response response = client.SendPhotoAsync(new PhotoMessage()
             {
                 Caption = "image caption",
                 ChatId = ChatId,
                 Photo = Utils.ToBytes(FilePath + "lolo.png"),
                 ReplyMarkup = ReplyKeyboard.Create().AddButton("download file").AddButton("something else").Build()
-            });
+            }).Result;
 
             response.Ok.Should().BeTrue();
             response.Result.Photo.Count.Should().Be(1);

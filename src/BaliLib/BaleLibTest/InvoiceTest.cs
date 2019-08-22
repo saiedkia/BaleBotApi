@@ -12,7 +12,7 @@ namespace BaleLibTest
         public void Send_invoice()
         {
             BaleClient client = new BaleClient(Token);
-            Response response = client.SendInvoice(new InvoiceMessage(ChatId, "paloadData", "pizza chicago", "pizza chicago with special souce", "my token", new Price("pizza chicago", 300_000)));
+            Response response = client.SendInvoice(new InvoiceMessage(ChatId, "paloadData", "pizza chicago", "pizza chicago with special souce", "my token", new Price("pizza chicago", 300_000))).Result;
                     
             response.Ok.Should().BeTrue();
             response.Result.Invoice.Should().NotBeNull();

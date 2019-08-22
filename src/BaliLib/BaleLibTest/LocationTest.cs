@@ -17,7 +17,7 @@ namespace BaleLibTest
                 ChatId = ChatId,
                 Latitude = 35.73122955392002,
                 Longitude = 51.41714821748457
-            });
+            }).Result;
 
 
             response.Ok.Should().BeTrue();

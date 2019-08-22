@@ -12,7 +12,7 @@ namespace BaleLibTest
         public void Get_chat_detail()
         {
             BaleClient client = new BaleClient(Token);
-            Response<Chat> response = client.GetChat(ChatId);
+            Response<Chat> response = client.GetChat(ChatId).Result;
 
             response.Ok.Should().BeTrue();
             response.Result.Should().NotBeNull();

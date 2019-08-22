@@ -1,11 +1,15 @@
-﻿using BaleLib.Models;
+﻿using BaleLib.Exceptions;
+using BaleLib.Models;
 using BaleLib.Models.Parameters;
 using BaleLib.Models.Updates;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace BaleLib
 {
@@ -14,51 +18,37 @@ namespace BaleLib
         readonly string token;
         readonly HttpClient client;
         readonly string baseUrl;
+        readonly string fileBaseUrl;
 
         public BaleClient(string token)
         {
+            if (string.IsNullOrEmpty(token))
+                throw new InvalidParameterException("token is invalid");
+
             this.token = token;
             baseUrl = $"https://tapi.bale.ai/{token}/";
+            fileBaseUrl = $"https://tapi.bale.ai/file/{token}/";
             client = new HttpClient();
         }
 
-        public UpdateResult GetUpdates(int offset = 0, int limit = 50, bool removeWebHook = false)
+        public async Task<Response<List<Update>>> GetUpdatesAsync(int offset = 1, int limit = 50, bool removeWebHook = false)
         {
             string url = baseUrl + "getupdates";
             if (removeWebHook) { DeleteWebHook(); }
-            string content = Utils.Serialize(new { Offset = offset, Limit = limit });
 
-            HttpResponseMessage response = client.PostAsync(url, new StringContent(content, Encoding.UTF8, "application/json")).Result;
+            Response<List<Update>> response = (Response<List<Update>>)await Post<List<Update>>(new { Offset = offset, Limit = limit }, url);
 
-            if (response.StatusCode == System.Net.HttpStatusCode.OK)
-            {
-                string result = response.Content.ReadAsStringAsync().Result;
-                return Utils.Deserialize<UpdateResult>(result);
-            }
-            else
-            {
-
-            }
-
-            return new UpdateResult() { Ok = false };
+            return response;
         }
 
-        public Response<bool> SetWebhook(string secureWebhookUrl)
+        public async Task<Response<bool>> SetWebhookAsync(string secureWebhookUrl)
         {
+            if (string.IsNullOrEmpty(secureWebhookUrl)) throw new InvalidParameterException("web hook url is invalid, its null or empty");
 
             string url = baseUrl + "setwebhook";
-            string content = Utils.Serialize(new { Url = secureWebhookUrl });
+            Response<bool> response = (Response<bool>)await Post<bool>(new { Url = secureWebhookUrl }, url);
 
-            HttpResponseMessage response = client.PostAsync(url, new StringContent(content, Encoding.UTF8, "application/json")).Result;
-
-            if (response.StatusCode == System.Net.HttpStatusCode.OK)
-            {
-                Response<bool> result = Utils.Deserialize<Response<bool>>(response.Content.ReadAsStringAsync().Result);
-
-                return result;
-            }
-
-            return new Response<bool>() { Ok = false, Result = false };
+            return response;
         }
 
         public Response<bool> DeleteWebHook()
@@ -66,7 +56,7 @@ namespace BaleLib
             string url = baseUrl + "deletewebhook";
             HttpResponseMessage response = client.GetAsync(url).Result;
 
-            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+            if (response.StatusCode == HttpStatusCode.OK)
             {
                 Response<bool> result = Utils.Deserialize<Response<bool>>(response.Content.ReadAsStringAsync().Result);
 
@@ -76,38 +66,24 @@ namespace BaleLib
             return new Response<bool>();
         }
 
-        public Response SendTextMessage(TextMessage message)
+        public async Task<Response> SendTextAsync(TextMessage message)
         {
             string url = baseUrl + "sendmessage";
 
-            string content = Utils.Serialize(message);
-            HttpResponseMessage response = client.PostAsync(url, new StringContent(content, Encoding.UTF8, "application/json")).Result;
-
-            string result = response.Content.ReadAsStringAsync().Result;
-            Response res = Utils.Deserialize<Response>(result);
-            return res;
+            Response response = await Post<VoidType>(message, url);
+            return response;
         }
 
-        public Response<bool> DeleteMessage(long chatId, long messageId)
+        public async Task<Response<bool>> DeleteMessageAsync(long chatId, long messageId)
         {
             string url = baseUrl + "deletemessage";
 
-            string content = Utils.Serialize(new { ChatId = chatId, MessageId = messageId });
-            HttpResponseMessage response = client.PostAsync(url, new StringContent(content, Encoding.UTF8, "application/json")).Result;
+            Response<bool> response = (Response<bool>)await Post<bool>(new { ChatId = chatId, MessageId = messageId }, url);
 
-            if (response.StatusCode == System.Net.HttpStatusCode.OK)
-            {
-                string result = response.Content.ReadAsStringAsync().Result;
-                Response<bool> res = Utils.Deserialize<Response<bool>>(result);
-                return res;
-
-
-            }
-
-            return new Response<bool>();
+            return response;
         }
 
-        public Response EditTextMessage(TextMessage message, long messageId)
+        public async Task<Response> EditTextAsync(TextMessage message, long messageId)
         {
             string url = baseUrl + "editmessagetext";
 
@@ -115,38 +91,20 @@ namespace BaleLib
             {
                 new KeyValuePair<string, string>("message_id", messageId.ToString())
             });
-            HttpResponseMessage response = client.PostAsync(url, new StringContent(content, Encoding.UTF8, "application/json")).Result;
 
-            if (response.StatusCode == System.Net.HttpStatusCode.OK)
-            {
-                string result = response.Content.ReadAsStringAsync().Result;
-                Response res = Utils.Deserialize<Response>(result);
-                return res;
+            Response response = await Post<VoidType>(new StringContent(content, Encoding.UTF8, "application/json"), url);
 
-
-            }
-
-            return null;
+            return response;
         }
 
 
-        public Response<Chat> GetChat(long chatId)
+        public async Task<Response<Chat>> GetChat(long chatId)
         {
             string url = baseUrl + "getchat";
 
             string content = Utils.Serialize(new { ChatId = chatId });
-            HttpResponseMessage response = client.PostAsync(url, new StringContent(content, Encoding.UTF8, "application/json")).Result;
-
-            if (response.StatusCode == System.Net.HttpStatusCode.OK)
-            {
-                string result = response.Content.ReadAsStringAsync().Result;
-                Response<Chat> res = Utils.Deserialize<Response<Chat>>(result);
-                return res;
-
-
-            }
-
-            return new Response<Chat>();
+            Response<Chat> response = (Response<Chat>)await Post<Chat>(new { ChatId = chatId }, url);
+            return response;
         }
 
         public Response<From> GetMe()
@@ -168,172 +126,71 @@ namespace BaleLib
         }
 
 
-        public Response SendPhoto(PhotoMessage message)
+        public async Task<Response> SendPhotoAsync(PhotoMessage message)
         {
             string url = baseUrl + "sendphoto";
 
-            MultipartFormDataContent multiContent = new MultipartFormDataContent
-            {
-                { new StringContent(message.ChatId.ToString()), "chat_id" },
-                { new StringContent(message.Caption), "caption"  },
-            };
+            MultipartFormDataContent content = MultiPartDataContent(message.ChatId, message.Caption, message.ReplyToMessageId, UploadType.Photo, message.Photo);
 
-            if (message.ReplyMarkup != null)
-                multiContent.Add(new StringContent(Utils.Serialize(message.ReplyMarkup)), "reply_markup");
-
-
-            if (message.ReplyToMessageId != null)
-                multiContent.Add(new StringContent("reply_to_message_id"), message.ReplyToMessageId?.ToString());
-
-            ByteArrayContent imageContent = new ByteArrayContent(message.Photo);
-            imageContent.Headers.ContentType = new MediaTypeHeaderValue("image/png");
-
-            multiContent.Add(imageContent, "photo");
-
-
-            HttpResponseMessage response = client.PostAsync(url, multiContent).Result;
-
-            if (response.StatusCode == System.Net.HttpStatusCode.OK)
-            {
-                Response result = Utils.Deserialize<Response>(response.Content.ReadAsStringAsync().Result);
-                return result;
-            }
-
-
-            return new Response();
+            Response response = await Post<VoidType>(content, url);
+            return response;
         }
 
-        public Response SendAudio(AudioMessage message)
+        public async Task<Response> SendAudioAsync(AudioMessage message)
         {
             string url = baseUrl + "sendAudio";
 
-            MultipartFormDataContent multiContent = new MultipartFormDataContent
-            {
-                { new StringContent(message.ChatId.ToString()), "chat_id" },
-                { new StringContent(message.Caption), "caption"  },
-                { new StringContent(message.Title), "title"  },
-            };
+            MultipartFormDataContent content = MultiPartDataContent(message.ChatId, message.Caption, message.ReplyToMessageId, UploadType.Audio, message.Audio);
+            content.Add(new StringContent(message.Title), "title");
 
-            if (message.ReplyToMessageId != null)
-                multiContent.Add(new StringContent("reply_to_message_id"), message.ReplyToMessageId?.ToString());
-
-            ByteArrayContent audioContent = new ByteArrayContent(message.Audio);
-            audioContent.Headers.ContentType = new MediaTypeHeaderValue("audio/mpeg");
-
-            multiContent.Add(audioContent, "audio");
-
-
-            HttpResponseMessage response = client.PostAsync(url, multiContent).Result;
-
-            if (response.StatusCode == System.Net.HttpStatusCode.OK)
-            {
-                Response result = Utils.Deserialize<Response>(response.Content.ReadAsStringAsync().Result);
-                return result;
-            }
-
-
-            return new Response();
+            Response response = await Post<VoidType>(content, url);
+            return response;
         }
 
-        public Response SendDocument(DocumentMessage message)
+        public async Task<Response> SendDocumentAsync(DocumentMessage message)
         {
             string url = baseUrl + "senddocument";
 
-            MultipartFormDataContent multiContent = new MultipartFormDataContent
-            {
-                { new StringContent(message.ChatId.ToString()), "chat_id" },
-                { new StringContent(message.Caption), "caption"  },
-            };
+            MultipartFormDataContent content = MultiPartDataContent(message.ChatId, message.Caption, message.ReplyToMessageId, UploadType.Document, message.Document);
 
-            if (message.ReplyToMessageId != null)
-                multiContent.Add(new StringContent("reply_to_message_id"), message.ReplyToMessageId?.ToString());
-
-            ByteArrayContent documentContent = new ByteArrayContent(message.Document);
-            documentContent.Headers.ContentType = new MediaTypeHeaderValue("audio/mpeg");
-
-            multiContent.Add(documentContent, "document");
-
-
-            HttpResponseMessage response = client.PostAsync(url, multiContent).Result;
-
-            if (response.StatusCode == System.Net.HttpStatusCode.OK)
-            {
-                Response result = Utils.Deserialize<Response>(response.Content.ReadAsStringAsync().Result);
-                return result;
-            }
-
-
-            return new Response();
+            Response response = await Post<VoidType>(content, url);
+            return response;
         }
 
-        public Response SendVideo(VideoMessage message)
+        public async Task<Response> SendVideoAsync(VideoMessage message)
         {
             string url = baseUrl + "sendVideo";
 
-            MultipartFormDataContent multiContent = new MultipartFormDataContent
-            {
-                { new StringContent(message.ChatId.ToString()), "chat_id" },
-                { new StringContent(message.Caption), "caption"  },
-            };
+            MultipartFormDataContent content = MultiPartDataContent(message.ChatId, message.Caption, message.ReplyToMessageId, UploadType.Video, message.Video);
 
-            if (message.ReplyToMessageId != null)
-                multiContent.Add(new StringContent("reply_to_message_id"), message.ReplyToMessageId?.ToString());
-
-            ByteArrayContent videoContent = new ByteArrayContent(message.Video);
-            videoContent.Headers.ContentType = new MediaTypeHeaderValue("video/mp4");
-
-            multiContent.Add(videoContent, "video");
-
-
-            HttpResponseMessage response = client.PostAsync(url, multiContent).Result;
-
-            if (response.StatusCode == System.Net.HttpStatusCode.OK)
-            {
-                Response result = Utils.Deserialize<Response>(response.Content.ReadAsStringAsync().Result);
-                return result;
-            }
-
-
-            return new Response();
+            Response response = await Post<VoidType>(content, url);
+            return response;
         }
 
-        public Response SendLocation(LocationMessage message)
+        public async Task<Response> SendLocation(LocationMessage message)
         {
             string url = baseUrl + "sendlocation";
 
-            string content = Utils.Serialize(message);
-            HttpResponseMessage response = client.PostAsync(url, new StringContent(content, Encoding.UTF8, "application/json")).Result;
-
-            if (response.StatusCode == System.Net.HttpStatusCode.OK)
-            {
-                string result = response.Content.ReadAsStringAsync().Result;
-                Response res = Utils.Deserialize<Response>(result);
-                return res;
-
-
-            }
-
-            return new Response();
+            Response response = await Post<VoidType>(message, url);
+            return response;
         }
 
-        public Response SendContact(ContactMessage message)
+        public async Task<Response> SendContact(ContactMessage message)
         {
             string url = baseUrl + "sendcontact";
 
-            string content = Utils.Serialize(message);
-            HttpResponseMessage response = client.PostAsync(url, new StringContent(content, Encoding.UTF8, "application/json")).Result;
-
-            if (response.StatusCode == System.Net.HttpStatusCode.OK)
-            {
-                string result = response.Content.ReadAsStringAsync().Result;
-                Response res = Utils.Deserialize<Response>(result);
-                return res;
-
-
-            }
-
-            return new Response();
+            Response response = await Post<VoidType>(message, url);
+            return response;
         }
+
+        public async Task<Response> SendInvoice(InvoiceMessage message)
+        {
+            string url = baseUrl + "sendInvoice";
+
+            Response response = await Post<VoidType>(message, url);
+            return response;
+        }
+
 
         public Response<File> GetFile(string fileId)
         {
@@ -353,22 +210,81 @@ namespace BaleLib
             return new Response<File>();
         }
 
-        public Response SendInvoice(InvoiceMessage message)
+        public bool DownloadFile(long chatId, string fileId, string filePath, string fileName)
         {
-            string url = baseUrl + "sendInvoice";
+            string url = fileBaseUrl + fileId;
+            HttpResponseMessage response = client.GetAsync(url).Result;
+            byte[] data = response.Content.ReadAsByteArrayAsync().Result;
 
-            string content = Utils.Serialize(message);
-            HttpResponseMessage response = client.PostAsync(url, new StringContent(content, Encoding.UTF8, "application/json")).Result;
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                if (!System.IO.Directory.Exists(filePath))
+                    System.IO.Directory.CreateDirectory(filePath);
 
-            //if (response.StatusCode == HttpStatusCode.OK)
-            //{
-            string result = response.Content.ReadAsStringAsync().Result;
-            Response res = Utils.Deserialize<Response>(result);
-            return res;
-            //         }
+                System.IO.File.WriteAllBytes(filePath + "\\" + fileName, data);
+                return true;
+            }
 
-            //       return null;
+            return false;
+        }
 
+
+
+
+        private async Task<Response> Post<ResponseType>(object content, string url)
+        {
+            if (content == null)
+                return Response.CreateInstance<ResponseType>("Invalid input parameter, it can not be null");
+
+            try
+            {
+                HttpContent _content = content is HttpContent ? (HttpContent)content : new StringContent(Utils.Serialize(content), Encoding.UTF8, "application/json");
+                HttpResponseMessage response = client.PostAsync(url, _content).Result;
+
+                if (typeof(ResponseType) == typeof(VoidType))
+                    return Utils.Deserialize<Response>(await response.Content.ReadAsStringAsync());
+                else
+                    return Utils.Deserialize<Response<ResponseType>>(await response.Content.ReadAsStringAsync());
+
+            }
+            catch (HttpRequestException httpExp)
+            {
+                return Response.CreateInstance<ResponseType>("Connection failed, " + httpExp.Message);
+            }
+            catch (JsonException jsonExp)
+            {
+                return Response.CreateInstance<ResponseType>("Deserialize/Read data failed, " + jsonExp.Message);
+            }
+            catch (Exception exp)
+            {
+                return Response.CreateInstance<ResponseType>(exp.Message);
+            }
+        }
+
+        private MultipartFormDataContent MultiPartDataContent(long chatId, string caption, long? replyToMessageId, UploadType uploadType, byte[] content)
+        {
+            MultipartFormDataContent multiContent = new MultipartFormDataContent
+            {
+                { new StringContent(chatId.ToString()), "chat_id" },
+                { new StringContent(caption), "caption"  },
+            };
+
+            if (replyToMessageId != null)
+                multiContent.Add(new StringContent("reply_to_message_id"), replyToMessageId.Value.ToString());
+
+            ByteArrayContent arrayContent = new ByteArrayContent(content);
+            arrayContent.Headers.ContentType = new MediaTypeHeaderValue("application/file");
+
+            multiContent.Add(arrayContent, uploadType.ToString().ToLower());
+            return multiContent;
+        }
+
+        private enum UploadType
+        {
+            Photo,
+            Audio,
+            Document,
+            Video
         }
     }
 }

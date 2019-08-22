@@ -15,13 +15,13 @@ namespace BaleLibTest
         public void Send_audio_successfully()
         {
             BaleClient client = new BaleClient(Token);
-            Response response = client.SendAudio(new AudioMessage()
+            Response response = client.SendAudioAsync(new AudioMessage()
             {
                 Caption = "audio caption",
                 ChatId = ChatId,
                 Audio = Utils.ToBytes(FilePath + "gun_sound.mp3"),
                 Title = "audio titile"
-            });
+            }).Result;
 
             response.Ok.Should().BeTrue();
             //response.Result.Audio.Should().NotBeNull();

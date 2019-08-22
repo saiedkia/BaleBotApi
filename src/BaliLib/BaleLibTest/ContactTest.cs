@@ -18,7 +18,7 @@ namespace BaleLibTest
                 FirstName = "contact name",
                 LastName = "last name",
                 PhoneNumber = "+989121212121"
-            });
+            }).Result;
 
 
             response.Ok.Should().BeTrue();

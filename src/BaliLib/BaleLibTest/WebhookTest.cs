@@ -13,7 +13,7 @@ namespace BaleLibTest
             BaleClient client = new BaleClient(Token);
             string sampleHook = "https://myhook.com";
 
-            Response<bool> response = client.SetWebhook(sampleHook);
+            Response<bool> response = client.SetWebhookAsync(sampleHook).Result;
             response.Ok.Should().BeTrue();
             response.Result.Should().BeTrue();
             response.Description.Should().BeNull();
@@ -25,7 +25,7 @@ namespace BaleLibTest
             BaleClient client = new BaleClient(Token);
             string sampleHook = "http://myhook.com";
 
-            Response<bool> response = client.SetWebhook(sampleHook);
+            Response<bool> response = client.SetWebhookAsync(sampleHook).Result;
             response.Ok.Should().BeFalse();
             response.Result.Should().BeFalse();
             response.Description.Should().NotBeNull();
