@@ -1,7 +1,7 @@
 {
 	"_type": "export",
 	"__export_format": 3,
-	"__export_date": "2019-08-21T09:50:07.834Z",
+	"__export_date": "2019-08-22T14:28:19.616Z",
 	"__export_source": "insomnia.desktop.app:v6.3.2",
 	"resources": [
 		{
@@ -17,10 +17,13 @@
 			"_id": "env_e765a6eb542d4759bc88553840190f29",
 			"color": null,
 			"created": 1565858803058,
-			"data": {},
+			"data": {
+				"chat_id": 658855854,
+				"token": "e8ca64a4c00bdf--------------"
+			},
 			"isPrivate": false,
 			"metaSortKey": 1565858803059,
-			"modified": 1565858803058,
+			"modified": 1566484071348,
 			"name": "New Environment",
 			"parentId": "wrk_bc73a4dffee74bb78ec6cd011b354192",
 			"_type": "environment"
@@ -39,7 +42,7 @@
 			"authentication": {},
 			"body": {
 				"mimeType": "application/json",
-				"text": "{\n\t\"offset\" : 2,\n\t\"limit\" : 100\n}"
+				"text": "{\n\t\"offset\" : 1,\n\t\"limit\" : 100\n}"
 			},
 			"created": 1565858830436,
 			"description": "",
@@ -51,9 +54,9 @@
 				}
 			],
 			"isPrivate": false,
-			"metaSortKey": -1565858830436,
+			"metaSortKey": -1566449060744,
 			"method": "POST",
-			"modified": 1565861858624,
+			"modified": 1566484051644,
 			"name": "getUpdates",
 			"parameters": [],
 			"parentId": "wrk_bc73a4dffee74bb78ec6cd011b354192",
@@ -63,7 +66,7 @@
 			"settingRebuildPath": true,
 			"settingSendCookies": true,
 			"settingStoreCookies": true,
-			"url": "https://tapi.bale.ai/403434177:dae115b14eca59dc3ecb420e44e679887bf2dabd/getUpdates",
+			"url": "https://tapi.bale.ai/{{ token  }}/getUpdates",
 			"_type": "request"
 		},
 		{
@@ -71,7 +74,7 @@
 			"authentication": {},
 			"body": {
 				"mimeType": "application/json",
-				"text": "{\n\t\"chat_id\": 658855854,\n\t\"text\": \"fff\",\n\t\"reply_to_message_id\" : null,\n\t\"reply_markup\": {\n\t\t\"inline_keyboard\": [\n\t\t\t[\n\t\t\t\t{\n\t\t\t\t\t\"text\" : \"hello world one!\",\n\t\t\t\t\t\"callback_data\": \"string\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"text\" : \"hello world one!\",\n\t\t\t\t\t\"callback_data\": \"string\"\n\t\t\t\t}\n\t\t\t],\n\t\t\t[\n\t\t\t\t{\n\t\t\t\t\t\"text\" : \"hello world two!\",\n\t\t\t\t\t\"callback_data\": \"string\"\n\t\t\t\t}\n\t\t\t],\n\t\t\t[\n\t\t\t\t{\n\t\t\t\t\t\"text\" : \"hello world three!\",\n\t\t\t\t\t\"callback_data\": \"string\"\n\t\t\t\t}\n\t\t\t]\n\t\t]\n\t}\n}"
+				"text": "{\n\t\"chat_id\": {{ chat_id  }},\n\t\"text\": \"fff\",\n\t\"reply_to_message_id\" : null,\n\t\"reply_markup\": {\n\t\t\"inline_keyboard\": [\n\t\t\t[\n\t\t\t\t{\n\t\t\t\t\t\"text\" : \"hello world one!\",\n\t\t\t\t\t\"callback_data\": \"string\"\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"text\" : \"hello world one!\",\n\t\t\t\t\t\"callback_data\": \"string\"\n\t\t\t\t}\n\t\t\t],\n\t\t\t[\n\t\t\t\t{\n\t\t\t\t\t\"text\" : \"hello world two!\",\n\t\t\t\t\t\"callback_data\": \"string\"\n\t\t\t\t}\n\t\t\t],\n\t\t\t[\n\t\t\t\t{\n\t\t\t\t\t\"text\" : \"hello world three!\",\n\t\t\t\t\t\"callback_data\": \"string\"\n\t\t\t\t}\n\t\t\t]\n\t\t]\n\t}\n}"
 			},
 			"created": 1565893208760,
 			"description": "",
@@ -85,7 +88,7 @@
 			"isPrivate": false,
 			"metaSortKey": -1565893208760,
 			"method": "POST",
-			"modified": 1566370054657,
+			"modified": 1566483982147,
 			"name": "sendMessage",
 			"parameters": [],
 			"parentId": "wrk_bc73a4dffee74bb78ec6cd011b354192",
@@ -95,7 +98,7 @@
 			"settingRebuildPath": true,
 			"settingSendCookies": true,
 			"settingStoreCookies": true,
-			"url": "https://tapi.bale.ai/1c909684fc2cb0e0a2c3a762ca1df70fe43651e/sendmessage",
+			"url": "https://tapi.bale.ai/{{ token  }}/sendmessage",
 			"_type": "request"
 		},
 		{
@@ -103,7 +106,7 @@
 			"authentication": {},
 			"body": {
 				"mimeType": "application/json",
-				"text": "{\n\n    \"chat_id\": 658855854 ,\n    \"text\": \"string\",\n    \"reply_to_message_id\": null\n\n}"
+				"text": "{\n\n    \"chat_id\": {{ chat_id  }} ,\n    \"text\": \"string\",\n    \"reply_to_message_id\": null\n\n}"
 			},
 			"created": 1565897419672,
 			"description": "",
@@ -117,7 +120,7 @@
 			"isPrivate": false,
 			"metaSortKey": -1565876019598,
 			"method": "POST",
-			"modified": 1565897436335,
+			"modified": 1566484009590,
 			"name": "deleteWebhook",
 			"parameters": [],
 			"parentId": "wrk_bc73a4dffee74bb78ec6cd011b354192",
@@ -127,7 +130,7 @@
 			"settingRebuildPath": true,
 			"settingSendCookies": true,
 			"settingStoreCookies": true,
-			"url": "https://tapi.bale.ai/403434177:dae115b14eca59dc3ecb420e44e679887bf2dabd/deletewebhook",
+			"url": "https://tapi.bale.ai/{{ token  }}/deletewebhook",
 			"_type": "request"
 		},
 		{
@@ -135,7 +138,7 @@
 			"authentication": {},
 			"body": {
 				"mimeType": "application/json",
-				"text": "{\n    \"chat_id\": 658855854 ,\n    \"message_id\": 209603713\n}"
+				"text": "{\n    \"chat_id\": {{ chat_id  }} ,\n    \"message_id\": 209603713\n}"
 			},
 			"created": 1565898033919,
 			"description": "",
@@ -147,9 +150,9 @@
 				}
 			],
 			"isPrivate": false,
-			"metaSortKey": -1565867425017,
+			"metaSortKey": -1566249753099,
 			"method": "GET",
-			"modified": 1565899246232,
+			"modified": 1566484047446,
 			"name": "deleteMessage",
 			"parameters": [],
 			"parentId": "wrk_bc73a4dffee74bb78ec6cd011b354192",
@@ -159,7 +162,7 @@
 			"settingRebuildPath": true,
 			"settingSendCookies": true,
 			"settingStoreCookies": true,
-			"url": "https://tapi.bale.ai/403434177:dae115b14eca59dc3ecb420e44e679887bf2dabd/deleteMessage",
+			"url": "https://tapi.bale.ai/{{ token  }}/deleteMessage",
 			"_type": "request"
 		},
 		{
@@ -181,7 +184,7 @@
 			"isPrivate": false,
 			"metaSortKey": -1565871722307.5,
 			"method": "POST",
-			"modified": 1565900452499,
+			"modified": 1566484017701,
 			"name": "setWebhook",
 			"parameters": [],
 			"parentId": "wrk_bc73a4dffee74bb78ec6cd011b354192",
@@ -191,7 +194,7 @@
 			"settingRebuildPath": true,
 			"settingSendCookies": true,
 			"settingStoreCookies": true,
-			"url": "https://tapi.bale.ai/403434177:dae115b14eca59dc3ecb420e44e679887bf2dabd/setwebhook",
+			"url": "https://tapi.bale.ai/{{ token  }}/setwebhook",
 			"_type": "request"
 		},
 		{
@@ -203,7 +206,7 @@
 					{
 						"id": "pair_5a4f8799a5de42bab7adc787408a20aa",
 						"name": "chat_id",
-						"value": "658855854"
+						"value": "{{ chat_id  }}"
 					},
 					{
 						"id": "pair_7dbbca4d94894c26a43c64ade6878d03",
@@ -239,7 +242,7 @@
 			"isPrivate": false,
 			"metaSortKey": -1565884614179,
 			"method": "POST",
-			"modified": 1566364793379,
+			"modified": 1566483995572,
 			"name": "sendPhoto",
 			"parameters": [],
 			"parentId": "wrk_bc73a4dffee74bb78ec6cd011b354192",
@@ -249,7 +252,7 @@
 			"settingRebuildPath": true,
 			"settingSendCookies": true,
 			"settingStoreCookies": true,
-			"url": "https://tapi.bale.ai/1c909684fc2cb0e0a2c3a762ca1df70fe43651e1/sendphoto",
+			"url": "https://tapi.bale.ai/{{ token  }}/sendphoto",
 			"_type": "request"
 		},
 		{
@@ -261,7 +264,7 @@
 					{
 						"id": "pair_5a4f8799a5de42bab7adc787408a20aa",
 						"name": "chat_id",
-						"value": "658855854"
+						"value": "{{ chat_id  }}"
 					},
 					{
 						"id": "pair_7dbbca4d94894c26a43c64ade6878d03",
@@ -295,7 +298,7 @@
 			"isPrivate": false,
 			"metaSortKey": -1565880316888.5,
 			"method": "POST",
-			"modified": 1565978183909,
+			"modified": 1566483999759,
 			"name": "sendAudio",
 			"parameters": [],
 			"parentId": "wrk_bc73a4dffee74bb78ec6cd011b354192",
@@ -305,7 +308,7 @@
 			"settingRebuildPath": true,
 			"settingSendCookies": true,
 			"settingStoreCookies": true,
-			"url": "https://tapi.bale.ai/403434177:dae115b14eca59dc3ecb420e44e679887bf2dabd/sendaudio",
+			"url": "https://tapi.bale.ai/{{ token  }}/sendaudio",
 			"_type": "request"
 		},
 		{
@@ -317,7 +320,7 @@
 					{
 						"id": "pair_5a4f8799a5de42bab7adc787408a20aa",
 						"name": "chat_id",
-						"value": "658855854"
+						"value": "{{ chat_id  }}"
 					},
 					{
 						"id": "pair_7dbbca4d94894c26a43c64ade6878d03",
@@ -353,7 +356,7 @@
 			"isPrivate": false,
 			"metaSortKey": -1565878168243.25,
 			"method": "POST",
-			"modified": 1566372543216,
+			"modified": 1566484005817,
 			"name": "sendVideo",
 			"parameters": [],
 			"parentId": "wrk_bc73a4dffee74bb78ec6cd011b354192",
@@ -363,7 +366,7 @@
 			"settingRebuildPath": true,
 			"settingSendCookies": true,
 			"settingStoreCookies": true,
-			"url": "https://tapi.bale.ai/1c909684fc2cb0e0a2c3a762ca1df70fe43651e1/sendvideo",
+			"url": "https://tapi.bale.ai/{{ token  }}/sendvideo",
 			"_type": "request"
 		},
 		{
@@ -375,7 +378,7 @@
 					{
 						"id": "pair_5a4f8799a5de42bab7adc787408a20aa",
 						"name": "chat_id",
-						"value": "658855854"
+						"value": "{{ chat_id  }}"
 					},
 					{
 						"id": "pair_7dbbca4d94894c26a43c64ade6878d03",
@@ -410,7 +413,7 @@
 			"isPrivate": false,
 			"metaSortKey": -1565879242565.875,
 			"method": "POST",
-			"modified": 1566364867431,
+			"modified": 1566484002990,
 			"name": "sendDocument",
 			"parameters": [],
 			"parentId": "wrk_bc73a4dffee74bb78ec6cd011b354192",
@@ -420,7 +423,7 @@
 			"settingRebuildPath": true,
 			"settingSendCookies": true,
 			"settingStoreCookies": true,
-			"url": "https://tapi.bale.ai/1c909684fc2cb0e0a2c3a762ca1df70fe43651e1/senddocument",
+			"url": "https://tapi.bale.ai/{{ token  }}/senddocument",
 			"_type": "request"
 		},
 		{
@@ -428,7 +431,7 @@
 			"authentication": {},
 			"body": {
 				"mimeType": "application/json",
-				"text": "{\n\n    \"chat_id\": 658855854 ,\n    \"longitude\": 51.41714821748457,\n    \"latitude\": 35.73122955392002\n\n}"
+				"text": "{\n\n    \"chat_id\": {{ chat_id  }} ,\n    \"longitude\": 51.41714821748457,\n    \"latitude\": 35.73122955392002\n\n}"
 			},
 			"created": 1566152179149,
 			"description": "",
@@ -442,7 +445,7 @@
 			"isPrivate": false,
 			"metaSortKey": -1565888911469.5,
 			"method": "POST",
-			"modified": 1566152749277,
+			"modified": 1566483985838,
 			"name": "sendLocation",
 			"parameters": [],
 			"parentId": "wrk_bc73a4dffee74bb78ec6cd011b354192",
@@ -452,7 +455,7 @@
 			"settingRebuildPath": true,
 			"settingSendCookies": true,
 			"settingStoreCookies": true,
-			"url": "https://tapi.bale.ai/403434177:dae115b14eca59dc3ecb420e44e679887bf2dabd/sendlocation",
+			"url": "https://tapi.bale.ai/{{ token  }}/sendlocation",
 			"_type": "request"
 		},
 		{
@@ -460,7 +463,7 @@
 			"authentication": {},
 			"body": {
 				"mimeType": "application/json",
-				"text": "{\n\t\"chat_id\": 658855854,\n\t\"phone_number\": \"0912126611\",\n\t\"first_name\": \"unknown contact/name\",\n\t\"last_name\": null,\n\t\"reply_markup\": {\n\t\t\"inline_keyboard\": [\n\t\t\t[\n\t\t\t\t{\n\t\t\t\t\t\"text\" : \"hello world one!\",\n\t\t\t\t\t\"callback_data\": \"string\"\n\t\t\t\t}\n\t\t\t],\n\t\t\t[\n\t\t\t\t{\n\t\t\t\t\t\"text\" : \"hello world two!\",\n\t\t\t\t\t\"callback_data\": \"string\"\n\t\t\t\t}\n\t\t\t],\n\t\t\t[\n\t\t\t\t{\n\t\t\t\t\t\"text\" : \"hello world three!\",\n\t\t\t\t\t\"callback_data\": \"string\"\n\t\t\t\t}\n\t\t\t]\n\t\t]\n\t}\n}"
+				"text": "{\n\t\"chat_id\": {{ chat_id  }},\n\t\"phone_number\": \"0912126611\",\n\t\"first_name\": \"unknown contact/name\",\n\t\"last_name\": null,\n\t\"reply_markup\": {\n\t\t\"inline_keyboard\": [\n\t\t\t[\n\t\t\t\t{\n\t\t\t\t\t\"text\" : \"hello world one!\",\n\t\t\t\t\t\"callback_data\": \"string\"\n\t\t\t\t}\n\t\t\t],\n\t\t\t[\n\t\t\t\t{\n\t\t\t\t\t\"text\" : \"hello world two!\",\n\t\t\t\t\t\"callback_data\": \"string\"\n\t\t\t\t}\n\t\t\t],\n\t\t\t[\n\t\t\t\t{\n\t\t\t\t\t\"text\" : \"hello world three!\",\n\t\t\t\t\t\"callback_data\": \"string\"\n\t\t\t\t}\n\t\t\t]\n\t\t]\n\t}\n}"
 			},
 			"created": 1566154085016,
 			"description": "",
@@ -474,7 +477,7 @@
 			"isPrivate": false,
 			"metaSortKey": -1565886762824.25,
 			"method": "POST",
-			"modified": 1566314326860,
+			"modified": 1566483988903,
 			"name": "sendContact",
 			"parameters": [],
 			"parentId": "wrk_bc73a4dffee74bb78ec6cd011b354192",
@@ -484,7 +487,7 @@
 			"settingRebuildPath": true,
 			"settingSendCookies": true,
 			"settingStoreCookies": true,
-			"url": "https://tapi.bale.ai/1c909684fc2cb0e0a2c3a762ca1df70fe43651e1/sendcontact",
+			"url": "https://tapi.bale.ai/{{ token  }}/sendcontact",
 			"_type": "request"
 		},
 		{
@@ -497,7 +500,7 @@
 			"isPrivate": false,
 			"metaSortKey": -1566368601212,
 			"method": "GET",
-			"modified": 1566370936870,
+			"modified": 1566483763870,
 			"name": "getFile",
 			"parameters": [],
 			"parentId": "wrk_bc73a4dffee74bb78ec6cd011b354192",
@@ -507,30 +510,7 @@
 			"settingRebuildPath": true,
 			"settingSendCookies": true,
 			"settingStoreCookies": true,
-			"url": "https://tapi.bale.ai/1c909684fc2cb0e0a2c3a762ca1df70fe43651e1/getFile?file_id=403434177:3847076836382345729:1",
-			"_type": "request"
-		},
-		{
-			"_id": "req_1893f65ba20440c8a60a7283849f8906",
-			"authentication": {},
-			"body": {},
-			"created": 1566370946688,
-			"description": "",
-			"headers": [],
-			"isPrivate": false,
-			"metaSortKey": -1566370946688,
-			"method": "GET",
-			"modified": 1566371094859,
-			"name": "downloadPhoto",
-			"parameters": [],
-			"parentId": "wrk_bc73a4dffee74bb78ec6cd011b354192",
-			"settingDisableRenderRequestBody": false,
-			"settingEncodeUrl": true,
-			"settingMaxTimelineDataSize": 1000,
-			"settingRebuildPath": true,
-			"settingSendCookies": true,
-			"settingStoreCookies": true,
-			"url": "https://fileserver-014-c002.bale.ai/403434177:3770849894252022273:1",
+			"url": "https://tapi.bale.ai/{{ token  }}/getFile?file_id=403434177:3847076836382345729:1",
 			"_type": "request"
 		},
 		{
@@ -538,7 +518,7 @@
 			"authentication": {},
 			"body": {
 				"mimeType": "application/json",
-				"text": "{\n\t\"chat_id\": 658855854,\n\t\"text\": \"fff\",\n\t\"reply_to_message_id\" : null,\n\t\"title\" : \"last night dinner\",\n\t\"prices\" : [\n\t\t{\n\t\t\t\"label\" : \"lanel 1\",\n\t\t\t\"amount\" : 2000\n\t\t}\n\t],\n\t\"payload\" : \"custome payload data\",\n\t\"provider_token\" : \"provider token...\",\n\t\"description\" : \"invoice desc here\",\n\t\"photo_url\" : \"https://github.blog/wp-content/uploads/2019/06/swift-gpr-blog.png?w=2000\"\n}"
+				"text": "{\n\t\"chat_id\": {{ chat_id  }},\n\t\"text\": \"fff\",\n\t\"reply_to_message_id\" : null,\n\t\"title\" : \"last night dinner\",\n\t\"prices\" : [\n\t\t{\n\t\t\t\"label\" : \"lanel 1\",\n\t\t\t\"amount\" : 2000\n\t\t}\n\t],\n\t\"payload\" : \"custome payload data\",\n\t\"provider_token\" : \"provider token...\",\n\t\"description\" : \"invoice desc here\",\n\t\"photo_url\" : \"https://github.blog/wp-content/uploads/2019/06/swift-gpr-blog.png?w=2000\"\n}"
 			},
 			"created": 1566376829049,
 			"description": "",
@@ -550,9 +530,9 @@
 				}
 			],
 			"isPrivate": false,
-			"metaSortKey": -1566376829049,
+			"metaSortKey": -1566130904986,
 			"method": "POST",
-			"modified": 1566377329620,
+			"modified": 1566484043163,
 			"name": "sendInvoice",
 			"parameters": [],
 			"parentId": "wrk_bc73a4dffee74bb78ec6cd011b354192",
@@ -562,7 +542,30 @@
 			"settingRebuildPath": true,
 			"settingSendCookies": true,
 			"settingStoreCookies": true,
-			"url": "https://tapi.bale.ai/1c909684fc2cb0e0a2c3a762ca1df70fe43651e1/sendinvoice",
+			"url": "https://tapi.bale.ai/{{ token  }}/sendinvoice",
+			"_type": "request"
+		},
+		{
+			"_id": "req_45a34fd6f52d4ad7a24c82aa55fbe2d6",
+			"authentication": {},
+			"body": {},
+			"created": 1566449060694,
+			"description": "",
+			"headers": [],
+			"isPrivate": false,
+			"metaSortKey": -1566449060694,
+			"method": "GET",
+			"modified": 1566483726198,
+			"name": "downloadFile",
+			"parameters": [],
+			"parentId": "wrk_bc73a4dffee74bb78ec6cd011b354192",
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingMaxTimelineDataSize": 1000,
+			"settingRebuildPath": true,
+			"settingSendCookies": true,
+			"settingStoreCookies": true,
+			"url": "https://tapi.bale.ai/file/{{ token  }}/103434177:-8539229513771644414:1",
 			"_type": "request"
 		}
 	]
