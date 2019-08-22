@@ -15,7 +15,7 @@ BaleClient client = new BaleClient(Token);
 client.SendTextMessage(new TextMessage()
 {
     ChatId = ChatId,
-    Text = "salam"
+    Text = "hi, please [visit my website](httP://saiedkia.ir)"
 });
 ```
 
@@ -29,4 +29,16 @@ Response response = client.SendAudio(new AudioMessage()
     Audio = Utils.ToBytes(FilePath + "gun_sound.mp3"),
     Title = "audio title"
 });
+```
+
+- Send invoice
+```C#
+BaleClient client = new BaleClient(Token);
+Response response = client.SendInvoice(
+	new InvoiceMessage(ChatId,
+		"paloadData", 
+		"pizza chicago", 
+		"pizza chicago with special souce", 
+		"uniqueFactorId", new Price("pizza chicago", 300_000)
+	)).Result;
 ```
